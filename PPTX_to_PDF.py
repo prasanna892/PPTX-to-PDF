@@ -1,38 +1,54 @@
 import comtypes.client, os
 
-def PPTtoPDF(inputFileName, outputFileName):
-    # Creating powerpoint object
-    powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
-    
-    # Hiding powerpoint window from screen
-    powerpoint.left = -powerpoint.Width
-    powerpoint.top = -powerpoint.Height
+class PPTtoPDF():
+    def __init__(self):
+        # Creating powerpoint object
+        self.powerpoint = comtypes.client.CreateObject("Powerpoint.Application")
+        
+        # Getting current position
+        self.current_pos = (self.powerpoint.left, self.powerpoint.top)
 
-    # Checking if outputFileName has .pdf extension
-    outputFileName = outputFileName if '.pdf' in outputFileName else outputFileName + '.pdf'
+        # Hiding powerpoint window from screen
+        self.powerpoint.left = -self.powerpoint.Width
+        self.powerpoint.top = -self.powerpoint.Height
 
-    # Converting to PDF file
-    deck = powerpoint.Presentations.Open(inputFileName)
-    deck.SaveAs(outputFileName, 32) # 32 for ppt to pdf
-    deck.Close()
+    def convert(self, inputFileName, outputFileName, deleteFile = False):
+        if file.lower().endswith(".pptx"): # Checking if file is .pptx file
+            print("Converting : ", file[:-5])
 
-    # Setting powerpoint position
-    powerpoint.left = 0
-    powerpoint.top = 0
+            # Checking if outputFileName has .pdf extension
+            outputFileName = outputFileName if outputFileName.lower().endswith(".pdf") else outputFileName + '.pdf'
 
-    # Closing powerpoint
-    powerpoint.Quit()
+            # Converting to PDF file
+            deck = self.powerpoint.Presentations.Open(inputFileName)
+            deck.SaveAs(outputFileName, 32) # 32 for ppt to pdf
+            deck.Close()
+
+            print("Conversion completed\n")
+
+            if deleteFile:
+                # Permanently delete .pptx file
+                os.remove(os.path.join(folder_path, file))
+
+    # Method to close powerpoint
+    def close(self):
+        # Resetting powerpoint position
+        self.powerpoint.left, self.powerpoint.top = self.current_pos
+
+        # Closing powerpoint
+        self.powerpoint.Quit()
+
 
 if __name__ == '__main__':
+    pptTOpdf = PPTtoPDF()
     
     folder_path = r"Folder Path"
 
+    # Iterating all files in given folder
     for file in os.listdir(folder_path):
-        if file.endswith(".pptx") or file.endswith(".PPTX"):
-            print("Converting : ", file[:-5])
-            # Calling PPTtoPDF function
-            PPTtoPDF(os.path.join(folder_path, file), os.path.join(folder_path, file[:-5]))
-            print("Conversion completed\n")
-            os.remove(os.path.join(folder_path, file)) # Permanently delete .pptx file
+        # Calling PPTtoPDF function
+        pptTOpdf.convert(os.path.join(folder_path, file), os.path.join(folder_path, file[:-5]), True)
         
     print("All done...")
+
+    pptTOpdf.close()
