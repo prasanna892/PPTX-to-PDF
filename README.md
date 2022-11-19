@@ -1,7 +1,7 @@
 # PPTX-to-PDF
 Python script to convert a set of PPTX file in folder to PDF file. using Microsoft PowerPoint and built-in modules.
 
-#### Work on window OS with Microsoft office only.
+**Work on window OS with Microsoft office only.**
 
 ## Contact 
 
