@@ -11,10 +11,16 @@ def PPTtoPDF(inputFileName, outputFileName):
     # Checking if outputFileName has .pdf extension
     outputFileName = outputFileName if '.pdf' in outputFileName else outputFileName + '.pdf'
 
-    # Opening powerpoint and converting to PDF file
+    # Converting to PDF file
     deck = powerpoint.Presentations.Open(inputFileName)
     deck.SaveAs(outputFileName, 32) # 32 for ppt to pdf
     deck.Close()
+
+    # Setting powerpoint position
+    powerpoint.left = 0
+    powerpoint.top = 0
+
+    # Closing powerpoint
     powerpoint.Quit()
 
 if __name__ == '__main__':
