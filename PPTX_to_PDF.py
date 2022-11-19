@@ -8,7 +8,10 @@ class PPTtoPDF():
         # Getting current position
         self.current_pos = (self.powerpoint.left, self.powerpoint.top)
 
-        # Hiding powerpoint window from screen
+        # Setting powerpoint minimized
+        self.powerpoint.WindowState = 1
+
+        # Hiding powerpoint in off screen
         self.powerpoint.left = -self.powerpoint.Width
         self.powerpoint.top = -self.powerpoint.Height
 
@@ -42,7 +45,7 @@ class PPTtoPDF():
 if __name__ == '__main__':
     pptTOpdf = PPTtoPDF()
     
-    folder_path = r"Folder Path"
+    folder_path = r"Folder_Path"
 
     # Iterating all files in given folder
     for file in os.listdir(folder_path):
